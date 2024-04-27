@@ -52,7 +52,7 @@ export default function ListUser(){
                             <td>{user.created_at}</td>
                             <td>{user.updateTime}</td>
                             <td>
-                                <Link to={`react/${user.id}/edit`}>Edit</Link>
+                            <Link to={`/react/${user.id}/edit`}>Edit</Link>
                                 <button onClick={() => deleteUser(user.id)}>Delete</button>
                             </td>
                         </tr>

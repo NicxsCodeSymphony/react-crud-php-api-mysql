@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 
 export default function EditUser(){
 
-    const [inputs, setInputs] = useState([])
+    const [inputs, setInputs] = useState({})
     const { id } = useParams(); 
 
     useEffect(() => {
