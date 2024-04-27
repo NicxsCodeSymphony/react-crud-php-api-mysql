@@ -17,23 +17,27 @@ $conn = $objDb->connect();
 $method = $_SERVER['REQUEST_METHOD'];
 switch($method){
 
-    case "GET":
+case "GET":
+    $path = explode('/', $_SERVER['REQUEST_URI']);
+    $id = $path[2];
+    if(is_numeric($id)){
+        $sql = "SELECT * FROM react WHERE id = :id";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($user);
+    } else {
         $sql = "SELECT * FROM react";
-        $path = explode('/', $_SERVER['REQUEST_URI']);
-        // print_r($path);
-        if(isset($path[3]) && is_numeric($path[3])){
-            $sql .= " WHERE id = :id";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':id', $path[3]);
-            $stmt->execute();
-            $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } else{
-            $stmt = $conn->prepare($sql);
-            $stmt->execute();
-            $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            echo json_encode($users);
-        }
-        break;
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($users);
+    }
+    break;
+
+
+
 
     case "POST":
         $user = json_decode(file_get_contents('php://input'));
