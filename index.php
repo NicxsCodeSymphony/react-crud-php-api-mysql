@@ -1,12 +1,7 @@
 <?php
 
-// Allow requests from all domains
 header("Access-Control-Allow-Origin: *");
-
-// Allow all headers
 header("Access-Control-Allow-Headers: *");
-
-// Allow GET and POST methods
 header("Access-Control-Allow-Methods: *");
 
 include 'connection.php';
