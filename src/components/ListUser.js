@@ -37,6 +37,7 @@ export default function ListUser(){
                         <th>Name</th>
                         <th>Username</th>
                         <th>Password</th>
+                        <th>Photo</th>
                         <th>Updated AT</th>
                         <th>Created AT</th>
                         <th>Action</th>
@@ -49,6 +50,7 @@ export default function ListUser(){
                             <td>{user.name}</td>
                             <td>{user.username}</td>
                             <td>{user.password}</td>
+                            <td><img src={`http://localhost/react/${user.image}`} alt={user.name} style={{ maxWidth: '100px' }} /></td>
                             <td>{user.created_at}</td>
                             <td>{user.updateTime}</td>
                             <td>

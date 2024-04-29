@@ -31,18 +31,23 @@ case "GET":
     }
     break;
 
-
-
-
     case "POST":
-        $user = json_decode(file_get_contents('php://input'));
-        $sql = "INSERT INTO react(name, username, password, created_at, updateTime) VALUES (:name, :username, :password, :created_at, :updateTime)";
+        // $user = json_decode(file_get_contents('php://input'));
+        $name = $_POST['name'];
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        $image = $_FILES['image'];
+        $target_dir = "images/";
+        $target_file = $target_dir . basename($image["name"]);
+        move_uploaded_file($image["tmp_name"], $target_file);
+        
+        // Insert data into database
+        $sql = "INSERT INTO react(name, username, password, image) VALUES (:name, :username, :password, :image)";
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':name', $user->name);
-        $stmt->bindParam(':username', $user->username);
-        $stmt->bindParam(':password', $user->password);
-        $stmt->bindParam(':created_at', $user->created_at);
-        $stmt->bindParam(':updateTime', $user->updateTime);
+        $stmt->bindParam(':name',$name);
+        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':password',$password);
+        $stmt->bindParam(':image', $target_file); 
         if($stmt->execute()){
             $res = ['status' => 1, 'message' => "Record created successfully"];
         } else{
@@ -50,7 +55,8 @@ case "GET":
         }
         echo json_encode($res);
         break;
-
+    
+    
         case "PUT":
             $user = json_decode(file_get_contents('php://input'));
             $sql = "UPDATE react SET name = :name, username = :username, password = :password, updateTime = :updateTime WHERE id = :id";

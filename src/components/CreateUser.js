@@ -6,16 +6,38 @@ export default function CreateUser(){
     const [inputs, setInputs] = useState({})
 
     const handleChange = (e) => {
-        setInputs({...inputs, [e.target.name]: e.target.value})
+            setInputs({...inputs, [e.target.name]: e.target.value});
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        axios.post("http://localhost/react/save", inputs)
-        console.log(inputs)
-        alert("Users saved successfully");
-        Redirect();
+    const handleFileChange = (e) => {
+        setInputs({...inputs, image: e.target.files[0]});
     }
+    
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append('name', inputs.name);
+        formData.append('username', inputs.username);
+        formData.append('password', inputs.password);
+        formData.append('image', inputs.image);
+        
+       try{
+        const response = await axios.post("http://localhost/react/save", formData, {
+            headers: {
+                'Content-Type':'multipart/form-data'
+            }
+        })
+        console.log(response.data)
+        .catch(error => {
+            console.error(error);
+            alert("Failed to save user");
+        });
+       } catch (error){
+            console.error(error)
+       }
+    }
+    
 
     function Redirect(){
         window.location.href = "/";
@@ -27,6 +49,8 @@ export default function CreateUser(){
             <form onSubmit={handleSubmit}>
                 <label>Name: </label>
                 <input type="text" name="name" onChange={handleChange} /> <br />
+                <label>Image</label>
+                <input type="file" name="image" onChange={handleFileChange} /> <br />
                 <label>Username: </label>
                 <input type="text" name="username" onChange={handleChange} /> <br />
                 <label>Password: </label>

@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom/cjs/react
 import CreateUser from './components/CreateUser';
 import ListUser from './components/ListUser';
 import EditUser from './components/EditUser';
+import Photo from './components/Photo';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <Route exact path="/" component={ListUser} />
       <Route path="/user/create" component={CreateUser} />
       <Route path="/react/:id/edit" component={EditUser} />
+      <Route path="/photo" component={Photo} />
      </Router>
     </div>
   );
